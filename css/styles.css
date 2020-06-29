@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Asap:wght@400;500;700&display=swap');
+
+* {
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: Asap, sans-serif;
+    background: #264653;
+}
+
+header {
+    height: 5vh;
+    background: #f4a261;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #264653;
+}
+
+.app {
+    height: 95vh;
+    width: 94vw;
+    display: grid;
+    grid-template-rows: 2fr 6fr 2fr 1fr;
+    gap: 1rem;
+    place-items: center;
+}
+
+.settings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.display {
+    height: 100%;
+    width: 100%;
+    background: #2a9d8f;
+    border: 0.1rem solid #e9c46a;
+    border-radius: 0.5rem;
+}
+
+.algorithms {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+.button {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    color: #e9c46a;
+    border: 0.1rem solid #e9c46a;
+    border-radius: 0.5rem;
+}
+
+.button:hover {
+    cursor: pointer;
+    background: #152830;
+}
+
+.selected {
+    background: #152830;
+}
