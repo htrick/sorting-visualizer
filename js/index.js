@@ -1,5 +1,5 @@
 const color1 = "#264653", color2 = "#e76f51", color3 = "#f4a261";
-const arrSize = 100;
+const arrSize = 100, speed = 100;
 const algorithms = [selectionSort, bubbleSort, mergeSort, quickSort];
 
 window.addEventListener("load", () => {
@@ -78,8 +78,8 @@ function displayArray(canvas, arr, s1=-1, s2=-1) {
 }
 
 function selectionSort(arr, canvas) {
+    let m = 1;
     for (let i = 0; i < arrSize; i++) {
-        setTimeout(displayArray.bind(this, canvas, arr.slice()), 100 * i);
         let min = i;
         for (let j = i + 1; j < arrSize; j++) {
             if (arr[min] > arr[j]) {
@@ -87,21 +87,36 @@ function selectionSort(arr, canvas) {
             }
         }
         if (min !== i) {
-            setTimeout(displayArray.bind(this, canvas, arr.slice(), min, i),
-                100 * i);
+            setTimeout(displayArray.bind(this, canvas, arr.slice(), min, i), speed * m++);
             let temp = arr[i];
             arr[i] = arr[min];
             arr[min] = temp;
         }
     }
+    setTimeout(displayArray.bind(this, canvas, arr.slice()), speed * m++);
 }
 
-function bubbleSort() {
+function bubbleSort(arr, canvas) {
+    let m = 1;
+    let swapped;
+    do {
+        swapped = false;
+        for (let i = 0; i < arrSize; i++) {
+            if (arr[i] > arr[i+1]) {
+                setTimeout(displayArray.bind(this, canvas, arr.slice(), i + 1, i), 0.3 * speed * m++);
+                let temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+                swapped = true;
+            }
+        }
+    } while (swapped);
+    setTimeout(displayArray.bind(this, canvas, arr.slice()), 0.3 * speed * m++);
 }
 
-function mergeSort() {
+function mergeSort(arr, canvas) {
 }
 
-function quickSort() {
+function quickSort(arr, canvas) {
 }
 
