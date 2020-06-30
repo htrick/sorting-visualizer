@@ -35,6 +35,9 @@ header {
 .display {
     height: 100%;
     width: 100%;
+}
+
+canvas {
     background: #2a9d8f;
     border: 0.1rem solid #e9c46a;
     border-radius: 0.5rem;
@@ -54,11 +57,14 @@ header {
     border-radius: 0.5rem;
 }
 
-.button:hover {
-    cursor: pointer;
-    background: #152830;
+.selected {
+    border: 0.1rem solid #f4a261;
+    box-shadow: 0 0 1rem 1rem #f4a261;
 }
 
-.selected {
-    background: #152830;
+@media (hover:hover) and (pointer:fine) {
+    .button:hover {
+        background: #152830;
+        cursor: pointer;
+    }
 }
