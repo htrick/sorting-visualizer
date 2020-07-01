@@ -1,4 +1,4 @@
-const color1 = "#264653", color2 = "#e76f51", color3 = "#f4a261";
+const color1 = "#264653", color2 = "#e76f51";
 const arrSize = 100, speed = 100;
 const algorithms = [selectionSort, bubbleSort, mergeSort, quickSort];
 
@@ -48,12 +48,12 @@ function resizeCanvas(canvas, display) {
     canvas.height = display.clientHeight;
 }
 
-function displayArray(canvas, arr, s1=-1, s2=-1) {
+function displayArray(canvas, arr, s1=-1, s2=-1, start=0) {
     const c = canvas.getContext("2d");
-    c.clearRect(0, 0, canvas.width, canvas.height);
+    c.clearRect(start * canvas.width / arrSize, 0, arr.length * canvas.width / arrSize, canvas.height);
     c.fillStyle = color1;
     arr.forEach((e, i) => {
-        let x = i * canvas.width / arrSize;
+        let x = (start + i) * canvas.width / arrSize;
         let y = canvas.height - (e * canvas.height / 100);
         let w = canvas.width / arrSize;
         let h = e * canvas.height / 100;
@@ -61,7 +61,7 @@ function displayArray(canvas, arr, s1=-1, s2=-1) {
     });
     if (s1 !== -1) {
         c.fillStyle = color2;
-        let x = s1 * canvas.width / arrSize;
+        let x = (start + s1) * canvas.width / arrSize;
         let y = canvas.height - (arr[s1] * canvas.height / 100);
         let w = canvas.width / arrSize;
         let h = arr[s1] * canvas.height / 100;
@@ -69,7 +69,7 @@ function displayArray(canvas, arr, s1=-1, s2=-1) {
     }
     if (s2 !== -1) {
         c.fillStyle = color2;
-        let x = s2 * canvas.width / arrSize;
+        let x = (start + s2) * canvas.width / arrSize;
         let y = canvas.height - (arr[s2] * canvas.height / 100);
         let w = canvas.width / arrSize;
         let h = arr[s2] * canvas.height / 100;
@@ -103,7 +103,7 @@ function bubbleSort(arr, canvas) {
         swapped = false;
         for (let i = 0; i < arrSize; i++) {
             if (arr[i] > arr[i+1]) {
-                setTimeout(displayArray.bind(this, canvas, arr.slice(), i + 1, i), 0.3 * speed * m++);
+                setTimeout(displayArray.bind(this, canvas, arr.slice(), i + 1, i), 0.05 * speed * m++);
                 let temp = arr[i];
                 arr[i] = arr[i + 1];
                 arr[i + 1] = temp;
@@ -111,10 +111,45 @@ function bubbleSort(arr, canvas) {
             }
         }
     } while (swapped);
-    setTimeout(displayArray.bind(this, canvas, arr.slice()), 0.3 * speed * m++);
+    setTimeout(displayArray.bind(this, canvas, arr.slice()), 0.05 * speed * m++);
 }
 
 function mergeSort(arr, canvas) {
+    let m = 1;
+
+    function mergeRecursive(arr, offset) {
+        if (arr.length <= 1) {
+            return arr;
+        }
+        let mid = Math.floor(arr.length / 2);
+        let left = arr.slice(0, mid);
+        let right = arr.slice(mid);
+        return merge(mergeRecursive(left, offset), mergeRecursive(right, offset + left.length), offset);
+    }
+
+    function merge(left, right, offset) {
+        let result = [], leftIndex = 0, rightIndex = 0;
+        while (leftIndex < left.length && rightIndex < right.length) {
+            if (left[leftIndex] < right[rightIndex]) {
+                setTimeout(displayArray.bind(this, canvas, result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex)),
+                    result.length + leftIndex, result.length - 1, offset), 0.4 * speed * m++);
+                result.push(left[leftIndex]);
+                leftIndex++;
+            }
+            else {
+                setTimeout(displayArray.bind(this, canvas, result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex)),
+                    result.length + left.length + rightIndex, result.length - 1, offset), 0.4 * speed * m++);
+                result.push(right[rightIndex]);
+                rightIndex++;
+            }
+        }
+        setTimeout(displayArray.bind(this, canvas, result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex)),
+            -1, -1, offset), 0.4 * speed * m++);
+        return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+    }
+
+    arr = mergeRecursive(arr, 0);
+    setTimeout(displayArray.bind(this, canvas, arr.slice()), speed * m++);
 }
 
 function quickSort(arr, canvas) {
