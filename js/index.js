@@ -149,9 +149,49 @@ function mergeSort(arr, canvas) {
     }
 
     arr = mergeRecursive(arr, 0);
-    setTimeout(displayArray.bind(this, canvas, arr.slice()), speed * m++);
+    setTimeout(displayArray.bind(this, canvas, arr.slice()), 0.4 * speed * m++);
 }
 
 function quickSort(arr, canvas) {
-}
+    let m = 1;
 
+    function quickRecursive(arr, left, right) {
+        let index;
+        if (arr.length > 1) {
+            index = partition(arr, left, right);
+            if (left < index - 1) {
+                quickRecursive(arr, left, index - 1);
+            }
+            if (index < right) {
+                quickRecursive(arr, index, right);
+            }
+        }
+        return arr;
+    }
+
+    function partition(arr, left, right) {
+        let pivot = arr[Math.floor((right + left) / 2)];
+        let i = left, j = right;
+        while (i <= j) {
+            while (arr[i] < pivot) {
+                i++;
+            }
+            while (arr[j] > pivot) {
+                j--;
+            }
+            if (i <= j) {
+                setTimeout(displayArray.bind(this, canvas, arr.slice(), i, j), 0.4 * speed * m++);
+                let temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+                i++;
+                j--;
+            }
+            setTimeout(displayArray.bind(this, canvas, arr.slice()), 0.4 * speed * m++);
+        }
+        return i;
+    }
+
+    arr = quickRecursive(arr, 0, arrSize - 1);
+    setTimeout(displayArray.bind(this, canvas, arr.slice()), 0.4 * speed * m++);
+}
